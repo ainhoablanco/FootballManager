@@ -4,8 +4,8 @@ public class Entrenador extends Persona{
     private int numTornejosGuanyats;
     private boolean seleccionadorNacional;
 
-    public Entrenador(String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int numTornejosGuanyats, boolean seleccionadorNacional) {
-        super(nom, cognom, dataNeixament, nivellMotivacio, souAnual);
+    public Entrenador(int id, String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int numTornejosGuanyats, boolean seleccionadorNacional) {
+        super(id, nom, cognom, dataNeixament, nivellMotivacio, souAnual);
         this.numTornejosGuanyats = numTornejosGuanyats;
         this.seleccionadorNacional = seleccionadorNacional;
     }

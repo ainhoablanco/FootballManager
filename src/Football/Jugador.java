@@ -1,12 +1,12 @@
 package Football;
 
-public class Jugador extends Persona{
+public class Jugador extends Persona implements Transferible{
     private int dorsal;
     private String posicio;//POR, DEF, MIG, DAV//
     private int puntuacio; //entre 30 - 100//
 
-    public Jugador(String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int dorsal, String posicio, int puntuacio) {
-        super(nom, cognom, dataNeixament, nivellMotivacio, souAnual);
+    public Jugador(int id, String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int dorsal, String posicio, int puntuacio) {
+        super(id, nom, cognom, dataNeixament, nivellMotivacio, souAnual);
         this.dorsal = dorsal;
         if (posicio.equals("POR") || posicio.equals("DEF") || posicio.equals("MIG") || posicio.equals("DAV")) {
             this.posicio = posicio;

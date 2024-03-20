@@ -4,23 +4,27 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
-    public static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
         boolean sortir;
         ArrayList<Equip> equips = new ArrayList<>();
         ArrayList<Persona> persones = new ArrayList<>();
-        Entrenador entrenador1 = new Entrenador("Ainhoa", "Blanco", "28-02-2004", 6, 40000, 50,false);
+        ArrayList<Jugador> jugadorsE1 = new ArrayList<>();
+        ArrayList<Jugador> jugadorsE2 = new ArrayList<>();
+        Entrenador entrenador1 = new Entrenador(1, "Ainhoa", "Blanco", "28-02-2004", 6, 40000, 50,false);
         persones.add(entrenador1);
-        Equip equip1 = new Equip("Barça", 1932, "Barcelona", "Camp nou", "Joan", entrenador1);
-        equips.add(equip1);
-        Entrenador entrenador2 = new Entrenador("Marc", "Plans", "02-06-2004", 7, 4000000, 42, true);
-        persones.add(entrenador2);
-        Equip equip2 = new Equip("Real Madrid", 1934, "Madrid", "Santiago Bernabeu", "Florentino", entrenador2);
-        equips.add(equip2);
-        Jugador jugador1 = new Jugador("Eric", "Concejero", "17-06-2005", 8, 50000, 10, "DAV", 80);
+        Jugador jugador1 = new Jugador(1, "Eric", "Concejero", "17-06-2005", 8, 50000, 10, "DAV", 80);
         persones.add(jugador1);
-        Jugador jugador2 = new Jugador("Kathe", "Arancibia", "06-05-2004", 7, 48000, 16, "DEF", 70);
+        jugadorsE1.add(jugador1);
+        Jugador jugador2 = new Jugador(2, "Kathe", "Arancibia", "06-05-2004", 7, 48000, 16, "DEF", 70);
         persones.add(jugador2);
+        jugadorsE2.add(jugador2);
+        Equip equip1 = new Equip("Barça", 1932, "Barcelona", "Camp nou", "Joan", entrenador1, jugadorsE1);
+        equips.add(equip1);
+        Entrenador entrenador2 = new Entrenador(2, "Marc", "Plans", "02-06-2004", 7, 4000000, 42, true);
+        persones.add(entrenador2);
+        Equip equip2 = new Equip("Real Madrid", 1934, "Madrid", "Santiago Bernabeu", "Florentino", entrenador2, jugadorsE2);
+        equips.add(equip2);
+
 
         sortir = false;
         do {
@@ -38,10 +42,10 @@ public class Main {
                     gestionarEquip(equips,persones);
                     break;
                 case 3:
-                    //donarAltaEquip();
+                    donarAltaEquip();
                     break;
                 case 4:
-                    //donarAltaPersona();
+                    donarAltaPersona();
                     break;
                 case 5:
                     //consultarDadesEquip();
@@ -65,7 +69,46 @@ public class Main {
         }while (sortir=true);
     }
 
+
+
+    private static void donarAltaPersona() {
+        Scanner scanner = new Scanner(System.in);
+        String opcio;
+
+        System.out.println();
+        System.out.println("Vols d'onar d'alta a un jugador o a un entrenador? ");
+        opcio = scanner.nextLine();
+
+        if (opcio.equalsIgnoreCase("entrenador")){
+            System.out.println("Has escollit crear un entrenador");
+            System.out.print("Nom: ");
+            String nom = scanner.nextLine();
+            System.out.print("Cognom: ");
+            String cognom = scanner.nextLine();
+            System.out.print("Data neixament: " );
+            String data = scanner.nextLine();
+            System.out.print("Nivell motivació (1-10): ");
+            int nivell = scanner.nextInt();
+            System.out.print("Sou anual: ");
+            int sou = scanner.nextInt();
+            System.out.print("Numero de tornejos guanyats: ");
+            int num = scanner.nextInt();
+            //boolean seleccionador;
+            //do {
+                //System.out.println("Has sigut seleccionador nacional? (true or false) ");
+                //seleccionador = scanner.nextBoolean();
+            //}while (!seleccionador==true && !seleccionador==true);
+
+            //new Entrenador(nom, cognom, data, nivell, sou, num, seleccionador);
+            System.out.println("Entrenador creat amb éxit");
+        }
+    }
+
+    private static void donarAltaEquip() {
+    }
+
     private static void gestionarEquip(ArrayList<Equip> equips, ArrayList<Persona> persones ) {
+        Scanner scanner = new Scanner(System.in);
         String equipEscollit;
         boolean seguir = true;
         int opcio;
@@ -73,26 +116,28 @@ public class Main {
         do{
             System.out.println("Quin equip vols gestionar?");
             System.out.print("Equip: ");
-            equipEscollit = scanner.next();
-            if (equipExisteix(equips, equipEscollit)) {
+
+            equipEscollit = scanner.nextLine();
+            int index=equipExisteix(equips,equipEscollit);
+            if (index!=-1) {
                 mostrarMenuGestioEquip();
                 opcio = scanner.nextInt();
 
                 switch (opcio) {
                     case 1:
-                        donarDeBaixaEquip(equips, equipEscollit);
+                        donarDeBaixaEquip(equips.get(index),equips);
                         break;
                     case 2:
-                        modificarPresident(equips);
+                        modificarPresident(equips.get(index));
                         break;
                     case 3:
-                        destituirEntrenador(equips, persones, equipEscollit);
+                        destituirEntrenador(equips.get(index), persones);
                         break;
                     case 4:
-                        fitxarJugadorEntrenador();
+                        fitxarJugadorEntrenador(equips.get(index), persones);
                         break;
                     case 5:
-                        transferirJugador();
+                        transferirJugador(equips.get(index));
                         break;
                     case 0:
                         seguir=false;
@@ -117,71 +162,145 @@ public class Main {
         System.out.print("Opció: ");
     }
 
-    private static void donarDeBaixaEquip(ArrayList<Equip> equips, String equipEscollit) {
-        System.out.println();
-        Equip equipAEliminar = null;
-        for (Equip equip : equips) {
-            if (equip.getNomEquip().equalsIgnoreCase(equipEscollit)) {
-                equipAEliminar = equip;
-                break;
-            }
-        }
-        if (equipAEliminar != null) {
-            equips.remove(equipAEliminar);
-            System.out.println("S'ha eliminat l'equip " + equipEscollit + " de la llista d'equips.");
+    private static void donarDeBaixaEquip(Equip equip, ArrayList<Equip> arrayEquips) {
+        Scanner scanner = new Scanner(System.in);
+        String resposta;
+
+        do{
+            System.out.println("Estas segur que vols donar de baixa l'equip: " + equip.getNomEquip() + "?");
+            resposta = scanner.nextLine();
+        }while (!resposta.equalsIgnoreCase("si") && !resposta.equalsIgnoreCase("no"));
+
+        if (resposta.equalsIgnoreCase("si")){
+            arrayEquips.remove(equip);
+        }else {
+            System.out.println("No es donarà de baixa");
         }
     }
 
-    private static void modificarPresident(ArrayList<Equip> equips) {
+    private static void modificarPresident(Equip equip) {
+        Scanner scanner = new Scanner(System.in);
         String nouPresident;
 
         System.out.println();
         System.out.print("Introdueix el nom del nou president de l'equip: ");
-        nouPresident = scanner.next();
+        nouPresident = scanner.nextLine();
+        System.out.println();
+        if (equip.getPresident() == null) {
+            equip.setPresident(nouPresident);
+            System.out.println("El president asignat és: " + nouPresident);
+        } else if (equip.getPresident().equalsIgnoreCase(nouPresident)) {
+            System.out.println("Atenció: " + nouPresident + " ja és el president actual de l'equip.");
+        } else {
+            equip.setPresident(nouPresident);
+            System.out.println("S'ha actualitzat el president de l'equip, ara és: " + nouPresident);
+        }
+        System.out.println();
 
-        for (Equip equip : equips) {
-            if (equip.getPresident() == null) {
-                equip.setPresident(nouPresident);
-                System.out.println();
-                System.out.println("El president asignat és: " + nouPresident);
-                System.out.println();
-            } else if (equip.getPresident().equalsIgnoreCase(nouPresident)) {
-                System.out.println();
-                System.out.println("Atenció: " + nouPresident + " ja és el president actual de l'equip.");
-                System.out.println();
-            } else {
-                equip.setPresident(nouPresident);
-                System.out.println();
-                System.out.println("S'ha actualitzat el president de l'equip, ara és: " + nouPresident);
-                System.out.println();
+    }
+    private static void destituirEntrenador(Equip equip, ArrayList<Persona> persones) {
+        Scanner scanner = new Scanner(System.in);
+        String resposta;
+        do{
+            System.out.println("Estas segur que vols destituir l'entrenador: " + equip.getEntrenador().getNom() +"?");
+            resposta = scanner.nextLine();
+        }while (!resposta.equalsIgnoreCase("si") && !resposta.equalsIgnoreCase("no"));
+
+        if (resposta.equalsIgnoreCase("si")){
+            System.out.println();
+            //persones.add(equip.getEntrenador());
+            equip.setEntrenador(null);
+            System.out.println("Entrenador destituit");
+            System.out.println();
+        }else {
+            System.out.println("No es destituirà");
+        }
+
+    }
+
+    private static void fitxarJugadorEntrenador(Equip equip, ArrayList<Persona> persones) {
+
+        Scanner scanner = new Scanner(System.in);
+        String opcio;
+        int personaFitxada;
+        System.out.println("Vols fitxar un entrenador o un jugador? ");
+        opcio= scanner.nextLine();
+        if (opcio.equalsIgnoreCase("entrenador")){
+            mostrarEntrenadors(persones);
+            System.out.println("Quin entrenador vols fitxar? ");
+            personaFitxada = scanner.nextInt();
+            Persona p = buscarPersona(personaFitxada, persones);
+            equip.setEntrenador((Entrenador) p);
+            System.out.println("Has fitxat a: " + p.getNom());
+        } else if (opcio.equalsIgnoreCase("jugador")) {
+            mostrarJugadors(persones);
+            System.out.println("Quin entrenador vols fitxar? ");
+            personaFitxada = scanner.nextInt();
+            Persona p = buscarPersona(personaFitxada, persones);
+            equip.getJugadors().add((Jugador) p);
+            System.out.println("Has fitxat a: " + p.getNom());
+        }
+
+    }
+
+    private static Persona buscarPersona(int personaFitxada, ArrayList<Persona> persones) {
+        boolean encontrado=false;
+        int i = 0;
+        while (!encontrado && i<persones.size()){
+            if (personaFitxada==persones.get(i).getId()){
+                encontrado=true;
+            }else {
+                i++;
             }
-            break;
+        }
+        return persones.get(i);
+    }
+
+    private static void mostrarJugadors(ArrayList<Persona> persones) {
+        for (Persona persona : persones) {
+            if (persona instanceof Jugador) {
+                System.out.println(persona.getId() + ". "+ persona.getNom());
+            }
         }
     }
 
-    private static void destituirEntrenador(ArrayList<Equip> equips, ArrayList<Persona> persones, String equipEscollit) {
-
-
-
-    }
-
-    private static void fitxarJugadorEntrenador() {
-        System.out.println();
-        System.out.println("Has seleccionat fitxar jugador/a o entrenador/a.");
-    }
-
-    private static void transferirJugador() {
-        System.out.println();
-        System.out.println("Has seleccionat transferir jugador/a.");
-    }
-
-    private static boolean equipExisteix(ArrayList<Equip> equips, String equipEscollit) {
-        for (Equip equip : equips) {
-            if (equip.getNomEquip().equalsIgnoreCase(equipEscollit)) {
-                return true;
+    private static void mostrarEntrenadors(ArrayList<Persona> persones) {
+        for (Persona persona : persones) {
+            if (persona instanceof Entrenador) {
+                System.out.println(persona.getId() + ". " + persona.getNom());
             }
         }
-        return false;
+    }
+
+
+    private static void transferirJugador(Equip equip) {
+        String jugador;
+        String equipATransferir;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println();
+        System.out.println("Jugadors: ");
+        System.out.println(equip);
+        System.out.println("Quin jugador vols transferir?");
+        jugador = scanner.nextLine();
+        System.out.println("A quin equip el vols transferir?");
+        equipATransferir = scanner.nextLine();
+    }
+
+    private static int equipExisteix(ArrayList<Equip> equips, String equipEscollit) {
+        int i=0;
+        boolean found=false;
+       while (!found && i<equips.size()){
+           if (equips.get(i).getNomEquip().equalsIgnoreCase(equipEscollit)){
+               found=true;
+           }
+           else {
+               i++;
+           }
+       }
+       if (!found){
+           i = -1;
+       }
+       return i;
     }
 
     private static void veureClassificacioLliga() {
@@ -189,8 +308,11 @@ public class Main {
     }
 
     private static int mostrarMenu() {
+        Scanner scanner = new Scanner(System.in);
         int opcio;
+
         do {
+            System.out.println();
             System.out.println("Welcome to Politècnics Football Manager:");
             System.out.println();
             System.out.println("                   Menú: ");

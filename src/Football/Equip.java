@@ -9,17 +9,25 @@ public class Equip {
     private String estadi;
     private String president;
     private Entrenador entrenador;
+    private ArrayList<Jugador> jugadors;
 
 
-
-    public Equip(String nomEquip, int anyFundacio, String ciutat, String estadi, String president, Entrenador entrenador) {
+    public Equip(String nomEquip, int anyFundacio, String ciutat, String estadi, String president, Entrenador entrenador, ArrayList<Jugador> jugadors) {
         this.nomEquip = nomEquip;
         this.anyFundacio = anyFundacio;
         this.ciutat = ciutat;
         this.estadi = estadi;
         this.president = president;
         this.entrenador = entrenador;
+        this.jugadors = jugadors;
+    }
 
+    public ArrayList<Jugador> getJugadors() {
+        return jugadors;
+    }
+
+    public void setJugadors(ArrayList<Jugador> jugadors) {
+        this.jugadors = jugadors;
     }
 
     public Entrenador getEntrenador() {

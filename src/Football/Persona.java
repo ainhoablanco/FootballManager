@@ -1,13 +1,15 @@
 package Football;
 
 public class Persona {
+    protected int id;
     protected String nom;
     protected String cognom;
     protected String dataNeixament;
     protected int nivellMotivacio; // del 1 - 10//
     protected int souAnual;
 
-    public Persona(String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual) {
+    public Persona(int id, String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual) {
+        this.id = id;
         this.nom = nom;
         this.cognom = cognom;
         this.dataNeixament = dataNeixament;
@@ -18,8 +20,15 @@ public class Persona {
         } else {
             this.nivellMotivacio = nivellMotivacio;
         }
-
         this.souAnual = souAnual;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNom() {
