@@ -3,6 +3,7 @@ package Football;
 import java.util.ArrayList;
 
 public class Equip {
+    private int id;
     private String nomEquip;
     private int anyFundacio;
     private String ciutat;
@@ -12,7 +13,8 @@ public class Equip {
     private ArrayList<Jugador> jugadors;
 
 
-    public Equip(String nomEquip, int anyFundacio, String ciutat, String estadi, String president, Entrenador entrenador, ArrayList<Jugador> jugadors) {
+    public Equip(int id, String nomEquip, int anyFundacio, String ciutat, String estadi, String president, Entrenador entrenador, ArrayList<Jugador> jugadors) {
+        this.id = id;
         this.nomEquip = nomEquip;
         this.anyFundacio = anyFundacio;
         this.ciutat = ciutat;
@@ -20,6 +22,14 @@ public class Equip {
         this.president = president;
         this.entrenador = entrenador;
         this.jugadors = jugadors;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public ArrayList<Jugador> getJugadors() {

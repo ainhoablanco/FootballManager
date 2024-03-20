@@ -4,8 +4,9 @@ public class Jugador extends Persona implements Transferible{
     private int dorsal;
     private String posicio;//POR, DEF, MIG, DAV//
     private int puntuacio; //entre 30 - 100//
+    private Equip equip;
 
-    public Jugador(int id, String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int dorsal, String posicio, int puntuacio) {
+    public Jugador(int id, String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int dorsal, String posicio, int puntuacio, Equip equip) {
         super(id, nom, cognom, dataNeixament, nivellMotivacio, souAnual);
         this.dorsal = dorsal;
         if (posicio.equals("POR") || posicio.equals("DEF") || posicio.equals("MIG") || posicio.equals("DAV")) {
@@ -21,6 +22,7 @@ public class Jugador extends Persona implements Transferible{
         } else {
             this.puntuacio = puntuacio;
         }
+        this.equip = equip;
     }
 
     public int getDorsal() {
@@ -45,5 +47,15 @@ public class Jugador extends Persona implements Transferible{
 
     public void setPuntuacio(int puntuacio) {
         this.puntuacio = puntuacio;
+    }
+
+    @Override
+    public void trasnferirAEquip(Equip e) {
+
+    }
+
+    @Override
+    public void esTransferible() {
+
     }
 }

@@ -10,19 +10,21 @@ public class Main {
         ArrayList<Persona> persones = new ArrayList<>();
         ArrayList<Jugador> jugadorsE1 = new ArrayList<>();
         ArrayList<Jugador> jugadorsE2 = new ArrayList<>();
+
         Entrenador entrenador1 = new Entrenador(1, "Ainhoa", "Blanco", "28-02-2004", 6, 40000, 50,false);
-        persones.add(entrenador1);
-        Jugador jugador1 = new Jugador(1, "Eric", "Concejero", "17-06-2005", 8, 50000, 10, "DAV", 80);
-        persones.add(jugador1);
-        jugadorsE1.add(jugador1);
-        Jugador jugador2 = new Jugador(2, "Kathe", "Arancibia", "06-05-2004", 7, 48000, 16, "DEF", 70);
-        persones.add(jugador2);
-        jugadorsE2.add(jugador2);
-        Equip equip1 = new Equip("Barça", 1932, "Barcelona", "Camp nou", "Joan", entrenador1, jugadorsE1);
-        equips.add(equip1);
+        Equip equip1 = new Equip(1, "Barça", 1932, "Barcelona", "Camp nou", "Joan", entrenador1, jugadorsE1);
         Entrenador entrenador2 = new Entrenador(2, "Marc", "Plans", "02-06-2004", 7, 4000000, 42, true);
+        Equip equip2 = new Equip(2, "Real Madrid", 1934, "Madrid", "Santiago Bernabeu", "Florentino", entrenador2, jugadorsE2);
+        Jugador jugador1 = new Jugador(1, "Eric", "Concejero", "17-06-2005", 8, 50000, 10, "DAV", 80, equip1);
+        Jugador jugador2 = new Jugador(2, "Kathe", "Arancibia", "06-05-2004", 7, 48000, 16, "DEF", 70, null);
+
+        persones.add(entrenador1);
         persones.add(entrenador2);
-        Equip equip2 = new Equip("Real Madrid", 1934, "Madrid", "Santiago Bernabeu", "Florentino", entrenador2, jugadorsE2);
+        persones.add(jugador1);
+        persones.add(jugador2);
+        jugadorsE1.add(jugador1);
+        jugadorsE2.add(jugador2);
+        equips.add(equip1);
         equips.add(equip2);
 
 
@@ -137,7 +139,7 @@ public class Main {
                         fitxarJugadorEntrenador(equips.get(index), persones);
                         break;
                     case 5:
-                        transferirJugador(equips.get(index));
+                        transferirJugador(equips.get(index), equips);
                         break;
                     case 0:
                         seguir=false;
@@ -234,7 +236,7 @@ public class Main {
             System.out.println("Has fitxat a: " + p.getNom());
         } else if (opcio.equalsIgnoreCase("jugador")) {
             mostrarJugadors(persones);
-            System.out.println("Quin entrenador vols fitxar? ");
+            System.out.println("Quin jugador vols fitxar? ");
             personaFitxada = scanner.nextInt();
             Persona p = buscarPersona(personaFitxada, persones);
             equip.getJugadors().add((Jugador) p);
@@ -273,17 +275,41 @@ public class Main {
     }
 
 
-    private static void transferirJugador(Equip equip) {
-        String jugador;
-        String equipATransferir;
+    private static void transferirJugador(Equip equip, ArrayList<Equip> equips) {
+        int jugador;
+        int equipATransferir;
+        Jugador j;
+        Equip e;
+
         Scanner scanner = new Scanner(System.in);
         System.out.println();
         System.out.println("Jugadors: ");
-        System.out.println(equip);
+        mostrarJugadorsEquip(equip.getJugadors());
         System.out.println("Quin jugador vols transferir?");
-        jugador = scanner.nextLine();
+
+        jugador = scanner.nextInt();
+        j = equip.getJugadors().get(jugador);
+        mostrarEquips(equips);
+
         System.out.println("A quin equip el vols transferir?");
-        equipATransferir = scanner.nextLine();
+        equipATransferir = scanner.nextInt();
+        e = equips.get(equipATransferir);
+
+        j.trasnferirAEquip(e);
+
+
+    }
+
+    private static void mostrarEquips(ArrayList<Equip> equips) {
+        for (Equip equip : equips) {
+            System.out.println(equip.getId() + ". " + equip.getNomEquip());
+        }
+    }
+
+    private static void mostrarJugadorsEquip(ArrayList<Jugador> jugadors) {
+        for (Jugador jugador : jugadors) {
+            System.out.println(jugador.getId() + ". " + jugador.getNom());
+        }
     }
 
     private static int equipExisteix(ArrayList<Equip> equips, String equipEscollit) {
