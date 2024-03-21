@@ -11,18 +11,18 @@ public class Main {
         ArrayList<Jugador> jugadorsE1 = new ArrayList<>();
         ArrayList<Jugador> jugadorsE2 = new ArrayList<>();
 
-        Entrenador entrenador1 = new Entrenador(1, "Ainhoa", "Blanco", "28-02-2004", 6, 40000, 50,false);
-        Equip equip1 = new Equip(1, "Barça", 1932, "Barcelona", "Camp nou", "Joan", entrenador1, jugadorsE1);
-        Entrenador entrenador2 = new Entrenador(2, "Marc", "Plans", "02-06-2004", 7, 4000000, 42, true);
-        Equip equip2 = new Equip(2, "Real Madrid", 1934, "Madrid", "Santiago Bernabeu", "Florentino", entrenador2, jugadorsE2);
-        Jugador jugador1 = new Jugador(1, "Eric", "Concejero", "17-06-2005", 8, 50000, 10, "DAV", 80, equip1);
-        Jugador jugador2 = new Jugador(2, "Kathe", "Arancibia", "06-05-2004", 7, 48000, 16, "DEF", 70, null);
-        Jugador jugador3 = new Jugador(3, "Ivan", "Garcia", "25-09-2005", 8, 55500, 35, "MIG", 80, equip2);
-        Jugador jugador4 = new Jugador(4, "Luis", "Fernandez", "14-01-2004", 7, 49500, 1, "POR", 70, null);
-        Entrenador entrenador3 = new Entrenador(1, "Africa", "Blanco", "28-02-2004", 6, 40000, 50,false);
-        Entrenador entrenador4 = new Entrenador(1, "Blanca", "Escude", "28-02-2004", 6, 40000, 50,false);
-        Jugador jugador5 = new Jugador(5, "Marta", "Gonzalez", "17-06-2005", 8, 50000, 10, "DAV", 80, equip1);
-        Jugador jugador6 = new Jugador(6, "Paula", "Bueno", "06-05-2004", 7, 48000, 16, "DEF", 70, null);
+        Entrenador entrenador1 = new Entrenador("Ainhoa", "Blanco", "28-02-2004", 6, 40000, 50,false);
+        Equip equip1 = new Equip("Barça", 1932, "Barcelona", "Camp nou", "Joan", entrenador1, jugadorsE1);
+        Entrenador entrenador2 = new Entrenador("Marc", "Plans", "02-06-2004", 7, 4000000, 42, true);
+        Equip equip2 = new Equip("Real Madrid", 1934, "Madrid", "Santiago Bernabeu", "Florentino", entrenador2, jugadorsE2);
+        Jugador jugador1 = new Jugador( "Eric", "Concejero", "17-06-2005", 8, 50000, 10, "DAV", 80, equip1);
+        Jugador jugador2 = new Jugador( "Kathe", "Arancibia", "06-05-2004", 7, 48000, 16, "DEF", 70, null);
+        Jugador jugador3 = new Jugador( "Ivan", "Garcia", "25-09-2005", 8, 55500, 35, "MIG", 80, equip2);
+        Jugador jugador4 = new Jugador("Luis", "Fernandez", "14-01-2004", 7, 49500, 1, "POR", 70, null);
+        Entrenador entrenador3 = new Entrenador("Africa", "Blanco", "28-02-2004", 6, 40000, 50,false);
+        Entrenador entrenador4 = new Entrenador("Blanca", "Escude", "28-02-2004", 6, 40000, 50,false);
+        Jugador jugador5 = new Jugador("Marta", "Gonzalez", "17-06-2005", 8, 50000, 10, "DAV", 80, equip1);
+        Jugador jugador6 = new Jugador("Paula", "Bueno", "06-05-2004", 7, 48000, 16, "DEF", 70, null);
 
 
         persones.add(entrenador3);
@@ -53,10 +53,10 @@ public class Main {
                     gestionarEquip(equips,persones);
                     break;
                 case 3:
-                    donarAltaEquip();
+                    donarAltaEquip(equips, persones);
                     break;
                 case 4:
-                    donarAltaPersona();
+                    donarAltaPersona(persones);
                     break;
                 case 5:
                     //consultarDadesEquip();
@@ -77,12 +77,12 @@ public class Main {
                     //desarDadesEquip();//FER MÉS ENDEVANT//
                     break;
             }
-        }while (sortir=true);
+        }while (!sortir);
     }
 
 
 
-    private static void donarAltaPersona() {
+    private static void donarAltaPersona(ArrayList<Persona> persones) {
         Scanner scanner = new Scanner(System.in);
         String opcio;
 
@@ -104,19 +104,102 @@ public class Main {
             int sou = scanner.nextInt();
             System.out.print("Numero de tornejos guanyats: ");
             int num = scanner.nextInt();
-            //boolean seleccionador;
-            //do {
-                //System.out.println("Has sigut seleccionador nacional? (true or false) ");
-                //seleccionador = scanner.nextBoolean();
-            //}while (!seleccionador==true && !seleccionador==true);
+            String seleccionador;
+            do{
+                System.out.println("Has sigut seleccionador nacional? (true or false) ");
+                seleccionador = scanner.nextLine();
+            }while (!seleccionador.equalsIgnoreCase("si") && !seleccionador.equalsIgnoreCase("no"));
 
-            //new Entrenador(nom, cognom, data, nivell, sou, num, seleccionador);
-            System.out.println("Entrenador creat amb éxit");
+            boolean esSeleccionador;
+            if (seleccionador.equalsIgnoreCase("si")){
+                esSeleccionador = true;
+            }else {
+                esSeleccionador=false;
+            }
+            Entrenador e = new Entrenador(nom, cognom, data, nivell, sou, num, esSeleccionador);
+            System.out.println("Entrenador " + e.getNom() + " creat amb éxit");
+
+        } else if (opcio.equalsIgnoreCase("jugador")) {
+            System.out.println();
+            System.out.println("Has escollit crear un jugador");
+            System.out.print("Nom: ");
+            String nom = scanner.nextLine();
+            System.out.print("Cognom: ");
+            String cognom = scanner.nextLine();
+            System.out.print("Data neixament: " );
+            String data = scanner.nextLine();
+            System.out.print("Nivell motivació (1-10): ");
+            int nivell = scanner.nextInt();
+            System.out.print("Sou anual: ");
+            int sou = scanner.nextInt();
+            System.out.print("Dorsal: ");
+            int dorsal = scanner.nextInt();
+            System.out.print("Posició (POR, DEF, MIG, DAV): " );
+            String posicio = scanner.nextLine();
+            scanner.next();
+            System.out.print("Puntuació (1-10): ");
+            int puntuacio = scanner.nextInt();
+
+            Jugador j = new Jugador(nom,cognom,data,nivell,sou,dorsal,posicio,puntuacio);
+
+            persones.add(j);
+
+            System.out.println("Has creat el jugador: " + j.getNom());
+
+
+        }else {
+            System.out.println("Escull entre jugador o entrenador ");
         }
     }
 
-    private static void donarAltaEquip() {
+    private static void donarAltaEquip(ArrayList<Equip> equips, ArrayList<Persona> persones) {
+
+        Scanner scanner = new Scanner(System.in);
+
+
+        System.out.println("Has escollit donar d'alta un Equip");
+        System.out.println();
+        System.out.print("Nom per l'equip: ");
+        String nom = scanner.nextLine();
+        boolean verdader = verificarNom(nom,equips);
+        if (!verdader){
+
+            System.out.print("Any fundació: ");
+            int any = scanner.nextInt();
+            System.out.print("Ciutat: " );
+            String ciutat = scanner.nextLine();
+            scanner.next();
+            System.out.print("Estadi: ");
+            String estadi = scanner.nextLine();
+            scanner.next();
+            System.out.print("President: ");
+            String president = scanner.nextLine();
+            scanner.next();
+
+            Equip e = new Equip(nom, any, ciutat, estadi, president);
+            equips.add(e);
+            System.out.println("S'ha creat l'equip: " + e.getNomEquip());
+
+        }else{
+
+            System.out.println();
+            System.out.println("Ja existeix un equip amb aquest nom");
+        }
     }
+
+    private static boolean verificarNom(String nom, ArrayList<Equip> equips) {
+        int i = 0;
+        boolean exit = false;
+        while (!exit && i<equips.size()) {
+            if (nom.equalsIgnoreCase(equips.get(i).getNomEquip())){
+                exit = true;
+            }else {
+                i++;
+            }
+        }
+        return exit;
+    }
+
 
     private static void gestionarEquip(ArrayList<Equip> equips, ArrayList<Persona> persones ) {
         Scanner scanner = new Scanner(System.in);
@@ -184,6 +267,7 @@ public class Main {
 
         if (resposta.equalsIgnoreCase("si")){
             arrayEquips.remove(equip);
+            System.out.println("Equip " + equip.getNomEquip() + " donat de baixa");
         }else {
             System.out.println("No es donarà de baixa");
         }
@@ -244,6 +328,7 @@ public class Main {
             Entrenador e = (Entrenador) p;
             equip.setEntrenador(e);
             System.out.println("Has fitxat a: " + p.getNom());
+
         } else if (opcio.equalsIgnoreCase("jugador")) {
             mostrarJugadors(persones);
             System.out.println("Quin jugador vols fitxar? ");

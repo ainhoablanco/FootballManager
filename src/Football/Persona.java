@@ -1,6 +1,7 @@
 package Football;
 
-public class Persona {
+public abstract class Persona {
+    protected static int nextId = 1; // Variable para llevar el conteo de los IDs
     protected int id;
     protected String nom;
     protected String cognom;
@@ -9,7 +10,10 @@ public class Persona {
     protected int souAnual;
 
     public Persona(int id, String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual) {
-        this.id = id;
+        this.id = nextId++;
+        if (id >= nextId) {
+            nextId = id + 1;
+        }
         this.nom = nom;
         this.cognom = cognom;
         this.dataNeixament = dataNeixament;

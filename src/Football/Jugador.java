@@ -8,6 +8,27 @@ public class Jugador extends Persona implements Transferible{
 
     public Jugador(int id, String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int dorsal, String posicio, int puntuacio, Equip equip) {
         super(id, nom, cognom, dataNeixament, nivellMotivacio, souAnual);
+        this.id = id;
+        this.dorsal = dorsal;
+        if (posicio.equalsIgnoreCase("POR") || posicio.equalsIgnoreCase("DEF") || posicio.equalsIgnoreCase("MIG") || posicio.equalsIgnoreCase("DAV")) {
+            this.posicio = posicio;
+        } else {
+            this.posicio = "DAV";
+            System.out.println("La posició proporcionada no és vàlida. S'estableix per defecte com a DAV.");
+        }
+        if (puntuacio < 30) {
+            this.puntuacio = 30;
+        } else if (puntuacio > 100) {
+            this.puntuacio = 100;
+        } else {
+            this.puntuacio = puntuacio;
+        }
+        this.equip = equip;
+    }
+
+    public Jugador(String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int dorsal, String posicio, int puntuacio, Equip equip) {
+        super(nextId++, nom, cognom, dataNeixament, nivellMotivacio, souAnual);
+        this.id = nextId - 1;
         this.dorsal = dorsal;
         if (posicio.equals("POR") || posicio.equals("DEF") || posicio.equals("MIG") || posicio.equals("DAV")) {
             this.posicio = posicio;
@@ -23,6 +44,24 @@ public class Jugador extends Persona implements Transferible{
             this.puntuacio = puntuacio;
         }
         this.equip = equip;
+    }
+    public Jugador(String nom, String cognom, String dataNeixament, int nivellMotivacio, int souAnual, int dorsal, String posicio, int puntuacio) {
+        super(nextId++, nom, cognom, dataNeixament, nivellMotivacio, souAnual);
+        this.id = nextId - 1;
+        this.dorsal = dorsal;
+        if (posicio.equals("POR") || posicio.equals("DEF") || posicio.equals("MIG") || posicio.equals("DAV")) {
+            this.posicio = posicio;
+        } else {
+            this.posicio = "DAV";
+            System.out.println("La posició proporcionada no és vàlida. S'estableix per defecte com a DAV.");
+        }
+        if (puntuacio < 30) {
+            this.puntuacio = 30;
+        } else if (puntuacio > 100) {
+            this.puntuacio = 100;
+        } else {
+            this.puntuacio = puntuacio;
+        }
     }
 
     public int getDorsal() {
