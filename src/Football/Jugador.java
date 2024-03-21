@@ -51,11 +51,20 @@ public class Jugador extends Persona implements Transferible{
 
     @Override
     public void trasnferirAEquip(Equip e) {
-
+        this.equip.getJugadors().remove(this);
+        e.getJugadors().add(this);
     }
 
     @Override
     public void esTransferible() {
 
+    }
+
+    public Equip getEquip() {
+        return equip;
+    }
+
+    public void setEquip(Equip equip) {
+        this.equip = equip;
     }
 }

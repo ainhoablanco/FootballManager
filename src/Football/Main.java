@@ -17,13 +17,22 @@ public class Main {
         Equip equip2 = new Equip(2, "Real Madrid", 1934, "Madrid", "Santiago Bernabeu", "Florentino", entrenador2, jugadorsE2);
         Jugador jugador1 = new Jugador(1, "Eric", "Concejero", "17-06-2005", 8, 50000, 10, "DAV", 80, equip1);
         Jugador jugador2 = new Jugador(2, "Kathe", "Arancibia", "06-05-2004", 7, 48000, 16, "DEF", 70, null);
+        Jugador jugador3 = new Jugador(3, "Ivan", "Garcia", "25-09-2005", 8, 55500, 35, "MIG", 80, equip2);
+        Jugador jugador4 = new Jugador(4, "Luis", "Fernandez", "14-01-2004", 7, 49500, 1, "POR", 70, null);
+        Entrenador entrenador3 = new Entrenador(1, "Africa", "Blanco", "28-02-2004", 6, 40000, 50,false);
+        Entrenador entrenador4 = new Entrenador(1, "Blanca", "Escude", "28-02-2004", 6, 40000, 50,false);
+        Jugador jugador5 = new Jugador(5, "Marta", "Gonzalez", "17-06-2005", 8, 50000, 10, "DAV", 80, equip1);
+        Jugador jugador6 = new Jugador(6, "Paula", "Bueno", "06-05-2004", 7, 48000, 16, "DEF", 70, null);
 
-        persones.add(entrenador1);
-        persones.add(entrenador2);
-        persones.add(jugador1);
-        persones.add(jugador2);
+
+        persones.add(entrenador3);
+        persones.add(entrenador4);
+        persones.add(jugador5);
+        persones.add(jugador6);
         jugadorsE1.add(jugador1);
+        jugadorsE1.add(jugador3);
         jugadorsE2.add(jugador2);
+        jugadorsE2.add(jugador4);
         equips.add(equip1);
         equips.add(equip2);
 
@@ -232,14 +241,17 @@ public class Main {
             System.out.println("Quin entrenador vols fitxar? ");
             personaFitxada = scanner.nextInt();
             Persona p = buscarPersona(personaFitxada, persones);
-            equip.setEntrenador((Entrenador) p);
+            Entrenador e = (Entrenador) p;
+            equip.setEntrenador(e);
             System.out.println("Has fitxat a: " + p.getNom());
         } else if (opcio.equalsIgnoreCase("jugador")) {
             mostrarJugadors(persones);
             System.out.println("Quin jugador vols fitxar? ");
             personaFitxada = scanner.nextInt();
             Persona p = buscarPersona(personaFitxada, persones);
-            equip.getJugadors().add((Jugador) p);
+            Jugador j = (Jugador) p;
+            j.setEquip(equip);
+            equip.getJugadors().add(j);
             System.out.println("Has fitxat a: " + p.getNom());
         }
 
@@ -288,27 +300,30 @@ public class Main {
         System.out.println("Quin jugador vols transferir?");
 
         jugador = scanner.nextInt();
-        j = equip.getJugadors().get(jugador);
-        mostrarEquips(equips);
+        j = equip.getJugadors().get(jugador-1);
 
+        mostrarEquips(equips);
         System.out.println("A quin equip el vols transferir?");
+
         equipATransferir = scanner.nextInt();
-        e = equips.get(equipATransferir);
+        e = equips.get(equipATransferir-1);
 
         j.trasnferirAEquip(e);
+
+        System.out.println("S'ha transferit a "+ j.getNom() + " de l'equip " + equip.getNomEquip() + " a l'equip "+ e.getNomEquip());
 
 
     }
 
     private static void mostrarEquips(ArrayList<Equip> equips) {
-        for (Equip equip : equips) {
-            System.out.println(equip.getId() + ". " + equip.getNomEquip());
+        for (int i = 0; i <equips.size() ; i++) {
+            System.out.println((i+1) + ". " + equips.get(i).getNomEquip());
         }
     }
 
     private static void mostrarJugadorsEquip(ArrayList<Jugador> jugadors) {
-        for (Jugador jugador : jugadors) {
-            System.out.println(jugador.getId() + ". " + jugador.getNom());
+        for (int i = 0; i <jugadors.size() ; i++) {
+           System.out.println((i+1) + ". " + jugadors.get(i).getNom());
         }
     }
 
