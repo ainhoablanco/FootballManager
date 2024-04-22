@@ -1,5 +1,5 @@
 package Football;
-
+//clase entrenador
 public class Entrenador extends Persona{
     private int numTornejosGuanyats;
     private boolean seleccionadorNacional;
